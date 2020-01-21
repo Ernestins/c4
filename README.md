@@ -1,12 +1,17 @@
 # C4
 A Macro Language with template engine function and influence from m4, awk, ruby, razor, cpp (c preprocessor) and perl
 
-> while m4 and cpp are nice because they are simple. They are not enough to handle markdown.
-> awk is nice to proceed some database like information, which can split in fields and rowsets.
-> razor is a very nice and powerful template engine.
-> perl can handle regex in the best way.
-> ruby has some nice extention methods like .each which will be a benefit.
-> so mixin all these pros to a new one which will be able to handle nested (recursive) markup/markdown in hopefully a simple to read simple to extend syntax called c4.
+> while **m4** and **cpp** are nice because they are simple. They are not enough to handle markdown.
+>
+> **awk** is nice to proceed some database like information, which can split in fields and rowsets.
+>
+> **razor** is a very nice and powerful **template engine**.
+>
+> **perl** can handle **regex** / **pcre** in the best way.
+>
+> **ruby** has some nice extention methods like .each which will be a benefit.
+>
+> so mixin all these pros to a new one which will be able to handle nested (recursive) markup/markdown in hopefully a simple to read simple to extend syntax called **c4**.
 
 ## A simple m4 Headings Numbering
 
