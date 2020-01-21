@@ -67,7 +67,7 @@ head2(mark content) {
 
 ---
 
-### A more complex c4 Macro Definition:
+### A little more complex c4 Macro Definition:
 which will reset the counter by each parent heading (h1):
 
 ```c4
