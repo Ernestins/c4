@@ -67,21 +67,49 @@ head2(mark content) {
 
 ---
 
-### The c4 Macro Definition:
+### A more complex c4 Macro Definition:
+which will reset the counter by each parent heading (h1):
+
 ```c4
  match(/^# $*$/): head1($*);
 match(/^## $*$/): head2($*);
 
 begin() {
+  $h1_counter = 0;
   $h2_counter = 0;
 }
 
 head1(mark content) {
   $h2_counter = 0;  
-  <h1>content</h1>
+  <h1>@++$h1_counter. content</h1>
 }
 
 head2(mark content) {
-  <h2>@++$h2_counter. content</h2>
+  <h2>@++$h1_counter.@++$h2_counter. content</h2>
 }
 ```
+
+### The Markdown:
+```md
+# Erstes Kapitel
+## Erste Sektion
+## Zweite Sektion
+## Zusammenfassung
+
+# Zweites Kapitel
+## Erste Sektion
+## Zweite Sektion
+```
+
+### The c4 HTML output from Markdown:
+```html
+<h1>1. Erstes Kapitel</h1>
+<h2>1.1. Erste Sektion</h2>
+<h2>1.2. Zweite Sektion</h2>
+<h2>1.3. Zusammenfassung</h2>
+<h1>2. Zweites Kapitel</h1>
+<h2>2.1. Erste Sektion</h2>
+<h2>2.2. Zweite Sektion</h2>
+```
+
+
