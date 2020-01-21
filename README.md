@@ -59,6 +59,12 @@ head2(mark content) {
   <h2>@++$h2_counter. content</h2>
 }
 ```
+`h2($*)` matched the `h2` macro and provides all inner data by $*.
+with the Brakets `(` and `)` a possible macro nesting is clear.
+
+> In this scenario it would be possible to rename head2 to h2 and no 
+> macro mapping in line 1 is necessary !
+
 
 ### The c4 Macro calls:
 ```m4
@@ -73,8 +79,6 @@ h2(Schluss)
 <h2>2. Zweites Kapitel</h2>
 <h2>3. Schluss</h2>
 ```
-
-`h2($*)` matched the `h2` macro and .
 
 
 ---
@@ -94,6 +98,7 @@ head2(mark content) {
   <h2>@++$h2_counter. content</h2>
 }
 ```
+with `match(/.../)` in a macro mapping it would be possible to catch text by regular expressions!
 
 ### The Markdown:
 ```md
