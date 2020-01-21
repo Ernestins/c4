@@ -123,6 +123,9 @@ with `match(/.../)` in a macro mapping it would be possible to catch text by reg
 which will reset the counter by each parent heading (h1):
 
 ```c4
+#!/usr/bin/c4 -w
+#h1h2.c4
+
  match(/^# $*$/):=> head1($*);
 match(/^## $*$/):=> head2($*);
 
@@ -164,4 +167,15 @@ head2(mark content) {
 <h2>2.2. Zweite Sektion</h2>
 ```
 
+### The cli for m4 -> html transformation
 
+```sh
+$ cat capter.md | c4 -m h1h2.c4 
+<h1>1. Erstes Kapitel</h1>
+<h2>1.1. Erste Sektion</h2>
+<h2>1.2. Zweite Sektion</h2>
+<h2>1.3. Zusammenfassung</h2>
+<h1>2. Zweites Kapitel</h1>
+<h2>2.1. Erste Sektion</h2>
+<h2>2.2. Zweite Sektion</h2>
+```
