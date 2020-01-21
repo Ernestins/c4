@@ -13,7 +13,7 @@ $headline="|?( *$@ *|!)+";
 $sepline= "|?( *:?{@isLeft[loop]}---+:?{@isRight[loop]} *|)+{@loop}";
 $cell="(|.*|?)|(.*|)";
 
-m = match(/^$headline$^$sepline$^/):=> table($@, match($context, /$cells/), m);
+m = match(/^$headline$^$sepline$^/):=> table($@, match($context, /$cell/), m);
 
 
 table([] columns,() macro, var matches) {
