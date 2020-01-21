@@ -13,17 +13,20 @@ $headline="|?( *$@ *|!)+";
 $sepline= "|?( *:?{@isLeft[loop]}---+:?{@isRight[loop]} *|)+{@loop}";
 $cell="(|.*|?)|(.*|)";
 
- match(/^$headline$^$sepline$^/):=> table($@, match(/$cells), );
-match(/^## $*$/):=> head2($*);
+m = match(/^$headline$^$sepline$^/):=> table($@, match($context, /$cells/), m);
 
-begin() {
-  $h1_counter = 0;
-  $h2_counter = 0;
-}
-
-align(
 
 table([] columns,() macro, var matches) {
+  align = (int n){ 
+    if(matches.isLeft[n] && matches.isRight[n]) {
+      return "CellCenter";
+    } else if(matches.isRight[n]) {
+      return "CellRight";
+    } else {
+      return "CellLeft";
+    }
+  };
+    
   <table>
     <tr>
   columns.each(c) {
@@ -31,6 +34,7 @@ table([] columns,() macro, var matches) {
   }
     </tr>
   @while(f = macro.parse()) {
+    if(f.contains('\n')) c=0;
     if(c==0) {
     <tr>  
     }
@@ -38,43 +42,47 @@ table([] columns,() macro, var matches) {
     if(c==$@.length) {
     </tr>  
     }
-   </table>
+  }
+  </table>
 }
-
 ```
 
 ### The Markdown:
 ```md
-# Erstes Kapitel
-## Erste Sektion
-## Zweite Sektion
-## Zusammenfassung
-
-# Zweites Kapitel
-## Erste Sektion
-## Zweite Sektion
+aaaa | bbb | ccc
+ ---:  | :---:  | :---
+ a |  
+ a | b | c  | d
+ a | b 
 ```
 
 ### The c4 HTML output from Markdown:
 ```html
-<h1>1. Erstes Kapitel</h1>
-<h2>1.1. Erste Sektion</h2>
-<h2>1.2. Zweite Sektion</h2>
-<h2>1.3. Zusammenfassung</h2>
-<h1>2. Zweites Kapitel</h1>
-<h2>2.1. Erste Sektion</h2>
-<h2>2.2. Zweite Sektion</h2>
+<table>
+<thead>
+ <tr>
+  <th align="right">aaaa</th>
+  <th align="center">bbb</th>
+  <th align="left">ccc</th>
+ </tr>
+</thead>
+<tbody>
+ <tr>
+  <td align="right">a</td>
+  <td align="center"></td>
+  <td align="left"></td>
+ </tr>
+ <tr>
+  <td align="right">a</td>
+  <td align="center">b</td>
+  <td align="left">c</td>
+ </tr>
+ <tr>
+  <td align="right">a</td>
+  <td align="center">b</td>
+  <td align="left"></td>
+ </tr>
+</tbody>
+</table>
 ```
 
-### The cli for m4 -> html transformation
-
-```sh
-$ cat capter.md | c4 -m h1h2.c4 
-<h1>1. Erstes Kapitel</h1>
-<h2>1.1. Erste Sektion</h2>
-<h2>1.2. Zweite Sektion</h2>
-<h2>1.3. Zusammenfassung</h2>
-<h1>2. Zweites Kapitel</h1>
-<h2>2.1. Erste Sektion</h2>
-<h2>2.2. Zweite Sektion</h2>
-```
