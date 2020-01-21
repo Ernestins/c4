@@ -49,7 +49,42 @@ H2(Schluss)
 
 ### The c4 Macro Definition:
 ```c4
-match(/^## $*$/): head2($*);
+h2($*):=> head2($*);
+
+begin() {
+  $h2_counter = 0;
+}
+
+head2(mark content) {
+  <h2>@++$h2_counter. content</h2>
+}
+```
+
+### The c4 Macro calls:
+```m4
+h2(Erstes Kapitel)
+h2(Zweites Kapitel)
+h2(Schluss)
+```
+
+### The c4 HTML output from Markdown:
+```html
+<h2>1. Erstes Kapitel</h2>
+<h2>2. Zweites Kapitel</h2>
+<h2>3. Schluss</h2>
+```
+
+`h2($*)` matched the `h2` macro and .
+
+
+---
+
+
+## A simple c4 Headings Numbering from Markdown Source
+
+### The c4 Macro Definition:
+```c4
+match(/^## $*$/):=> head2($*);
 
 begin() {
   $h2_counter = 0;
@@ -83,8 +118,8 @@ head2(mark content) {
 which will reset the counter by each parent heading (h1):
 
 ```c4
- match(/^# $*$/): head1($*);
-match(/^## $*$/): head2($*);
+ match(/^# $*$/):=> head1($*);
+match(/^## $*$/):=> head2($*);
 
 begin() {
   $h1_counter = 0;
