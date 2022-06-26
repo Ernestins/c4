@@ -1,5 +1,6 @@
-# C4
-A Macro Language with template engine function and influence from m4, awk, ruby, razor, cpp (c preprocessor) and perl
+# c4
+
+A Macro Language (usable like GNU m4) with template engine function and influence from m4, awk, ruby, razor, cpp (c preprocessor) and perl
 
 > while **m4** and **cpp** are nice because they are simple. They are not enough to handle markdown.
 >
