@@ -180,3 +180,88 @@ $ cat capter.md | c4 -m h1h2.c4
 <h2>2.1. Erste Sektion</h2>
 <h2>2.2. Zweite Sektion</h2>
 ```
+
+
+
+---
+
+Take a look how a for-loop will be written in 
+
+C++ for:
+```cpp
+
+for(int i=0; i<10; ++i)
+{
+  cout << i << "\n";
+}
+
+```
+
+
+
+For-Loop in M4:
+```m4
+define(`for',
+   `ifelse($#,0,``$0'',
+   `ifelse(eval($2<=$3),1,
+   `pushdef(`$1',$2)$5`'popdef(`$1')$0(`$1',eval($2+$4),$3,$4,`$5')')')')dnl
+
+for(`x',`1',`5',`1',
+   `for(`y',`1',x,`1',
+      `*')
+')
+```
+
+Native Loop in c4 via gotos and then a template which creates an ordinary for-loop template for c4:
+```c4
+
+{
+  $i=0;
+  label continue: if(expr !($i<10)) goto break 
+  {
+    printf "$i\n"
+    ++$i
+  } goto continue
+  label break:
+}  
+
+
+template "for"(init; cond; inc)[continue, break]{algo}{
+  expr init
+  label continue: if(expr !cond) goto break 
+  {
+    {algo}
+    expr inc
+  } goto continue
+  label break:
+}  
+
+for($i=0; $i<10; ++$i) {
+  printf "$i\n"
+}
+
+```
+
+But like in C++ this one above is a runtime loop!
+A Meta-Loop looks like this:
+
+
+```c4
+
+func<0> =>> func<0>(): false
+func<n> =>> func<n>(): func<n-1>
+
+func<int x>() => print "$x\n"
+
+func<10>()
+
+```
+
+will be evaluated to ...
+
+```c4
+
+func<10>() ->  func<x:10> { print "10\n"; func<x:9>{ print "9\n"; func<x:8>{ print "8\n"; func<x:7>{ 
+
+```
+
